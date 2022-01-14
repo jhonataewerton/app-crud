@@ -3,6 +3,7 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const departament_controller = require("./departament_controller");
+const product_controller = require("./product_controller");
 const app = express();
 
 app.use(bodyparser.json());
@@ -14,6 +15,6 @@ mongoose.connect("mongodb://localhost:27017/http_app", {
 });
 
 app.use("/departments", departament_controller);
-// app.use("/products", products_controller);
+app.use("/products", products_controller);
 
 app.listen(3000);

@@ -25,7 +25,7 @@ router.delete("/:id", (req, res) => {
   let id = req.params.id;
   Departament.deleteOne({ _id: id }, (err) => {
     if (err) res.status(500).send(err);
-    else res.status(200), send({});
+    else res.status(200).send({});
   });
 });
 
