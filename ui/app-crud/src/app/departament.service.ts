@@ -29,7 +29,29 @@ export class DepartamentService {
     return this.http
       .post<Departament>(this.url, d)
       .pipe(
-        tap((dep: Departament) => this.departmentsSubjects$.getValue().push(dep))
+        tap((dep: Departament) =>
+          this.departmentsSubjects$.getValue().push(dep)
+        )
       );
+  }
+
+  del(dep: Departament): Observable<any> {
+    return this.http.delete(`${this.url}/${dep._id}`).pipe(
+      tap(() => {
+        let departments = this.departmentsSubjects$.getValue();
+        let i = departments.findIndex((d) => d._id === dep._id);
+        if (i >= 0) departments.splice(i, 1);
+      })
+    );
+  }
+
+  update(dep: Departament): Observable<Departament> {
+    return this.http.patch<Departament>(`${this.url}/${dep._id}`, dep).pipe(
+      tap((d) => {
+        let departments = this.departmentsSubjects$.getValue();
+        let i = departments.findIndex((d) => d._id === dep._id);
+        if (i >= 0) departments[i].name = d.name;
+      })
+    );
   }
 }
